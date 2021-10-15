@@ -20,6 +20,11 @@ struct Bot
 	token::String
 end
 
+"""
+	request(bot::Bot, method::AbstractString, args..; kwargs...)
+
+Generic function for calling a method towards the telegram API.
+"""
 function request(bot::Bot, method::AbstractString, args...; kwargs...)
 	url = "$URL/" * "bot$(bot.token)/" * method
 	headers = Dict("Content-Type" => "application/json",)
@@ -45,14 +50,20 @@ getUpdates
 get_updates(bot::Bot; kwargs...) = request(bot, "getupdates"; kwargs...)
 
 """
-parse_mode::AbstractString = "MarkdownV2",
-entities::AbstractVector{MessageEntity} = [],
-disable_web_page_preview::Bool = false,
-disable_notification::Bool = false,
-reply_to_message_id::Union{Nothing,Integer} = nothing,
-allow_sending_without_reply::Bool = false,
+getChat
 """
+get_chat(bot::Bot, cid::Union{AbstractString,Integer}) = request(bot, "getchat"; chat_id = cid)
 
+"""
+	parse_mode::AbstractString = "MarkdownV2",
+	entities::AbstractVector{MessageEntity} = [],
+	disable_web_page_preview::Bool = false,
+	disable_notification::Bool = false,
+	reply_to_message_id::Union{Nothing,Integer} = nothing,
+	allow_sending_without_reply::Bool = false,
+
+sendMessage
+"""
 function send_message(
 		bot::Bot,
 		cid::Union{Integer,AbstractString},
