@@ -20,7 +20,7 @@ struct User
 	bot::Bool
 	first_name::String
 
-	User(o::JSON3.Object) = new(o[:id], o[:is_bot], o[:first_name])
+	User(o::AbstractDict) = new(o[:id], o[:is_bot], o[:first_name])
 end
 
 """
@@ -56,7 +56,7 @@ struct Chat
 	ID::Int
 	type::String
 
-	Chat(o::JSON3.Object) = new(o[:id], o[:type])
+	Chat(o::AbstractDict) = new(o[:id], o[:type])
 end
 
 """
@@ -69,7 +69,7 @@ struct Message
 	date::DateTime
 	text::String
 
-	Message(o::JSON3.Object) =
+	Message(o::AbstractDict) =
 		new(
 			o[:message_id],
 			User(o[:from]),
@@ -89,12 +89,11 @@ struct Update
 	msg::Union{Message,Nothing}
 	edited_msg::Union{Message,Nothing}
 
-	Update(o::JSON3.Object) = new(
+	Update(o::AbstractDict) = new(
 			o[:update_id],
 			haskey(o, :message) ? Message(o[:message]) : nothing,
 			haskey(o, :edited_message) ? Message(o[:edited_message]) : nothing,
 		)
-
 end
 
 """
