@@ -69,14 +69,13 @@ struct Message
 	date::DateTime
 	text::String
 
-	Message(o::AbstractDict) =
-		new(
-			o[:message_id],
-			User(o[:from]),
-			Chat(o[:chat]),
-			unix2datetime(o[:date]),
-			o[:text],
-		)
+	Message(o::AbstractDict) = new(
+		o[:message_id],
+		User(o[:from]),
+		Chat(o[:chat]),
+		unix2datetime(o[:date]),
+		o[:text],
+	)
 end
 
 """
@@ -90,10 +89,10 @@ struct Update
 	edited_msg::Union{Message,Nothing}
 
 	Update(o::AbstractDict) = new(
-			o[:update_id],
-			haskey(o, :message) ? Message(o[:message]) : nothing,
-			haskey(o, :edited_message) ? Message(o[:edited_message]) : nothing,
-		)
+		o[:update_id],
+		haskey(o, :message) ? Message(o[:message]) : nothing,
+		haskey(o, :edited_message) ? Message(o[:edited_message]) : nothing,
+	)
 end
 
 """
@@ -127,7 +126,6 @@ Use this method to send text messages. On success, the sent Message is returned.
 	reply_to_message_id::Union{Nothing,Integer} = nothing,
 	allow_sending_without_reply::Bool = false,
 ```
-
 """
 send_message(
 		bot::Bot,
